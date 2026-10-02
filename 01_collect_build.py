@@ -7,12 +7,12 @@ Run this once per build, right after you finish compiling it yourself:
 
     cd ~/code/bitcraze/crazyflie-firmware
     make cf2_defconfig && make
-    collect_build.py . -o cf2.json
+    01_collect_build.py . -o cf2.json
 
     rm -rf build && make cf2_defconfig && make sim
-    collect_build.py . --kbuild-output build/sim -o sim.json
+    01_collect_build.py . --kbuild-output build/sim -o sim.json
 
-Feed the two resulting snapshots to make_treemap_data.py.
+Feed the two resulting snapshots to 02_make_treemap_data.py.
 
 Note: `make sim`'s own KBUILD_OUTPUT=$(CURDIR)/sim resolves *under* `build/`
 (build/sim), not at the repo root -- the top-level Makefile already

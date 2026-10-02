@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-"""Turn one or two collect_build.py snapshots into the tree JSON treemap.html reads.
+"""Turn one or two 01_collect_build.py snapshots into the tree JSON treemap.html reads.
 
 Two builds -- diff mode, classifies every source file that was compiled into
 either build:
 
-    make_treemap_data.py ~/code/bitcraze/crazyflie-firmware cf2.json sim.json \
+    02_make_treemap_data.py ~/code/bitcraze/crazyflie-firmware cf2.json sim.json \
         --name-a cf2 --name-b sim -o data.json
 
   a_only            - compiled for build A, not for build B
@@ -17,7 +17,7 @@ either build:
 One build -- single mode (omit snapshot_b), just visualizes that build's
 source tree by component, no classification:
 
-    make_treemap_data.py ~/code/bitcraze/crazyflie-firmware cf2.json \
+    02_make_treemap_data.py ~/code/bitcraze/crazyflie-firmware cf2.json \
         --name-a cf2 -o data.json
 
 Never runs `make` or otherwise touches the firmware repo's build state --
@@ -91,9 +91,9 @@ def freeze(node):
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("firmware_repo", help="path to the crazyflie-firmware checkout (for line counts)")
-    ap.add_argument("snapshot_a", help="collect_build.py output for build A")
+    ap.add_argument("snapshot_a", help="01_collect_build.py output for build A")
     ap.add_argument("snapshot_b", nargs="?", default=None,
-                     help="collect_build.py output for build B; omit for a single-build "
+                     help="01_collect_build.py output for build B; omit for a single-build "
                           "view of build A only (no classification)")
     ap.add_argument("--name-a", required=True, help="label for build A, e.g. cf2")
     ap.add_argument("--name-b", help="label for build B, e.g. sim (required if snapshot_b is given)")

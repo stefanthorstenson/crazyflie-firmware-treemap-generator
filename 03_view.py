@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Serve the treemap page locally and print the URL to open.
 
-    view.py [data.json] [--port 8000]
+    03_view.py [data.json] [--port 8000]
 
 Serves this folder over HTTP on localhost, which avoids the browser blocking
 `treemap.html`'s local `fetch()` under `file://`. With no argument the page

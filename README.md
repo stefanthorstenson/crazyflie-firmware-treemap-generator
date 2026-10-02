@@ -28,9 +28,9 @@ like, and snapshot the result right after each build finishes.
 ```
 cd /path/to/crazyflie-firmware
 make cf2_defconfig && make
-python3 /path/to/collect_build.py . -o /tmp/cf2.json
+python3 /path/to/01_collect_build.py . -o /tmp/cf2.json
 
-python3 /path/to/make_treemap_data.py /path/to/crazyflie-firmware /tmp/cf2.json \
+python3 /path/to/02_make_treemap_data.py /path/to/crazyflie-firmware /tmp/cf2.json \
   --name-a cf2 -o /path/to/data.json
 ```
 
@@ -44,18 +44,18 @@ compare against.
 cd /path/to/crazyflie-firmware
 
 make cf2_defconfig && make
-python3 /path/to/collect_build.py . -o /tmp/cf2.json
+python3 /path/to/01_collect_build.py . -o /tmp/cf2.json
 
 rm -rf build && make cf2_defconfig && make sim
-python3 /path/to/collect_build.py . --kbuild-output build/sim -o /tmp/sim.json
+python3 /path/to/01_collect_build.py . --kbuild-output build/sim -o /tmp/sim.json
 
-python3 /path/to/make_treemap_data.py /path/to/crazyflie-firmware /tmp/cf2.json /tmp/sim.json \
+python3 /path/to/02_make_treemap_data.py /path/to/crazyflie-firmware /tmp/cf2.json /tmp/sim.json \
   --name-a cf2 --name-b sim -o /path/to/data.json
 ```
 
 Notes:
 
-- `collect_build.py`'s `--kbuild-output` is the build's output directory
+- `01_collect_build.py`'s `--kbuild-output` is the build's output directory
   relative to the firmware repo — defaults to `build` (Kbuild's own
   default). The `sim` target needs an existing `.config` (run a
   `*_defconfig` first) and writes under `build/sim/`, not at the repo root
@@ -63,21 +63,21 @@ Notes:
   the `sim` target's own recipe (which sets `KBUILD_OUTPUT=$(CURDIR)/sim`)
   runs, so pass `--kbuild-output build/sim` after `make sim`.
 - Snapshot build A, *then* rebuild for B — don't just point
-  `collect_build.py` at a stale output directory from a different config,
+  `01_collect_build.py` at a stale output directory from a different config,
   since Kbuild only rebuilds what changed and a leftover `.cmd` file from an
   earlier config would be misattributed to the wrong build. Cleaning the
   output dir between builds (as in the example above) avoids this;
-  `collect_build.py` also warns if a `.cmd` file's recorded source no
+  `01_collect_build.py` also warns if a `.cmd` file's recorded source no
   longer exists, which is the usual symptom.
 - Works for any pair of builds, not just cf2 vs sim — two hardware
   platforms, two configs of the same platform, etc.
 
 ## Viewing
 
-`view.py` serves this folder on localhost and prints the URL to open:
+`03_view.py` serves this folder on localhost and prints the URL to open:
 
 ```
-python3 view.py
+python3 03_view.py
 ```
 
 With no argument the page loads `data.json`; pass another tree JSON inside
@@ -96,18 +96,18 @@ works.
 step needed to see the tool working:
 
 ```
-python3 view.py example/example-single-build.json   # one build (cf2)
-python3 view.py example/example-comparison.json     # two builds compared (cf2 vs. cf2bl)
+python3 03_view.py example/example-single-build.json   # one build (cf2)
+python3 03_view.py example/example-comparison.json     # two builds compared (cf2 vs. cf2bl)
 ```
 
 ## Statistics
 
-`print_stats.py` prints a text summary of a two-build comparison, read from
+`03_print_stats.py` prints a text summary of a two-build comparison, read from
 the same tree JSON the page loads — no firmware checkout or snapshots
 needed:
 
 ```
-python3 print_stats.py example/example-comparison.json
+python3 03_print_stats.py example/example-comparison.json
 ```
 
 - **Category totals** — files and lines of code in each of the four

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""Print statistics for a two-build comparison produced by make_treemap_data.py.
+"""Print statistics for a two-build comparison produced by 02_make_treemap_data.py.
 
-    print_stats.py data.json
+    03_print_stats.py data.json
 
 Reads only the tree JSON -- needs neither the firmware checkout nor the
 snapshots. Prints two tables:
@@ -91,7 +91,7 @@ def print_statistics(tree):
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("data", help="tree JSON written by make_treemap_data.py (two-build mode)")
+    ap.add_argument("data", help="tree JSON written by 02_make_treemap_data.py (two-build mode)")
     args = ap.parse_args()
 
     tree = json.loads(Path(args.data).read_text())
