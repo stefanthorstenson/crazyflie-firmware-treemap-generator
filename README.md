@@ -102,6 +102,24 @@ python3 -m http.server
 - `http://localhost:8000/treemap.html?data=example/example-comparison.json`
   — two builds compared (`cf2` vs. `cf2bl`)
 
+## Statistics
+
+`print_stats.py` prints a text summary of a two-build comparison, read from
+the same tree JSON the page loads — no firmware checkout or snapshots
+needed:
+
+```
+python3 print_stats.py example/example-comparison.json
+```
+
+- **Category totals** — files and lines of code in each of the four
+  categories, with percentages.
+- **Lines per component** — lines of code per category for each component
+  (same grouping as the treemap), largest component first.
+
+Exits with an error for a single-build file, since there's nothing to
+compare.
+
 ## Known limitations
 
 - Header-shadow detection matches build A's and build B's dependency lists
