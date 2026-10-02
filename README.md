@@ -74,16 +74,20 @@ Notes:
 
 ## Viewing
 
-Open `treemap.html` next to `data.json` (or `?data=path/to/other.json`). If
-it loads blank, your browser blocked the local `fetch()` (common for
-`file://` in Chrome, not in Firefox) — either use the in-page "Load JSON…"
-picker, or serve the folder locally:
+`view.py` serves this folder on localhost and prints the URL to open:
 
 ```
-python3 -m http.server -d /path/to/folder
+python3 view.py
 ```
 
-and open it over `http://localhost:8000/treemap.html`.
+With no argument the page loads `data.json`; pass another tree JSON inside
+this folder to view that instead. Use `--port` if 8000 is taken, and stop
+the server with Ctrl-C.
+
+Serving over HTTP is needed because browsers commonly block the page's
+local `fetch()` under `file://` (Chrome does, Firefox doesn't). Opening
+`treemap.html` directly and using the in-page "Load JSON…" picker also
+works.
 
 ### Try it without building anything
 
@@ -91,16 +95,10 @@ and open it over `http://localhost:8000/treemap.html`.
 `cf2` build (and `cf2bl`, the bootloader, for the comparison one) — no build
 step needed to see the tool working:
 
-In the repo root folder:
-
 ```
-python3 -m http.server
+python3 view.py example/example-single-build.json   # one build (cf2)
+python3 view.py example/example-comparison.json     # two builds compared (cf2 vs. cf2bl)
 ```
-
-- `http://localhost:8000/treemap.html?data=example/example-single-build.json`
-  — one build (`cf2`)
-- `http://localhost:8000/treemap.html?data=example/example-comparison.json`
-  — two builds compared (`cf2` vs. `cf2bl`)
 
 ## Statistics
 
